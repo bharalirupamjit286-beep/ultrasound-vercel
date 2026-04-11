@@ -5889,14 +5889,28 @@
       renderAuditTrail(null);
       updateCurrentReportInfo(null, null);
     });
-  
+  </script>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   const supabaseUrl = "https://vqncwpgtkellxkncwunk.supabase.co";
   const supabaseKey = "sb_publishable_LFiqeWCar0j7ZSPy8qWlGg_BonlarTt";
-  const supabaseClient = (window.supabase && supabaseUrl && supabaseKey && !supabaseUrl.includes("YOUR_URL_HERE") && !supabaseKey.includes("YOUR_ANON_KEY_HERE") && !supabaseKey.includes("PASTE_YOUR_ANON_KEY_HERE"))
-    ? window.supabase.createClient(supabaseUrl, supabaseKey)
-    : null;
+  let supabaseClient = null;
+
+  function createSupabaseClientIfPossible() {
+    const supabaseLib = window.supabase || window.supabaseJs || globalThis.supabase || globalThis.supabaseJs;
+    const hasConfig = supabaseUrl && supabaseKey && !supabaseUrl.includes("YOUR_URL_HERE") && !supabaseKey.includes("YOUR_ANON_KEY_HERE") && !supabaseKey.includes("PASTE_YOUR_ANON_KEY_HERE");
+    if (!hasConfig) return null;
+    if (!supabaseLib || typeof supabaseLib.createClient !== 'function') return null;
+    if (supabaseClient) return supabaseClient;
+    try {
+      supabaseClient = supabaseLib.createClient(supabaseUrl, supabaseKey);
+      return supabaseClient;
+    } catch (err) {
+      console.error('Supabase client init failed:', err);
+      return null;
+    }
+  }
 
   function setAuthStatus(message, isError = false) {
     const el = document.getElementById('authStatus');
@@ -5906,11 +5920,12 @@
   }
 
   async function refreshSupabaseAuthStatus() {
-    if (!supabaseClient) {
-      setAuthStatus('Supabase is ready. Please sign up or log in.');
+    const client = createSupabaseClientIfPossible();
+    if (!client) {
+      setAuthStatus('Supabase library did not load. Use the hosted file or check internet/CDN access.', true);
       return null;
     }
-    const { data, error } = await supabaseClient.auth.getUser();
+    const { data, error } = await client.auth.getUser();
     if (error) {
       setAuthStatus(error.message, true);
       return null;
@@ -5926,35 +5941,39 @@
   }
 
   async function signUpUser() {
-    if (!supabaseClient) return setAuthStatus('Supabase is not configured yet.', true);
+    const client = createSupabaseClientIfPossible();
+    if (!client) return setAuthStatus('Supabase library did not load. Use the hosted file or check internet/CDN access.', true);
     const email = (document.getElementById('authEmail')?.value || '').trim();
     const password = (document.getElementById('authPassword')?.value || '').trim();
     if (!email || !password) return setAuthStatus('Enter email and password.', true);
-    const { error } = await supabaseClient.auth.signUp({ email, password });
+    const { error } = await client.auth.signUp({ email, password });
     if (error) return setAuthStatus(error.message, true);
     setAuthStatus('Signup successful. Check email if confirmation is enabled.');
   }
 
   async function signInUser() {
-    if (!supabaseClient) return setAuthStatus('Supabase is not configured yet.', true);
+    const client = createSupabaseClientIfPossible();
+    if (!client) return setAuthStatus('Supabase library did not load. Use the hosted file or check internet/CDN access.', true);
     const email = (document.getElementById('authEmail')?.value || '').trim();
     const password = (document.getElementById('authPassword')?.value || '').trim();
     if (!email || !password) return setAuthStatus('Enter email and password.', true);
-    const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+    const { error } = await client.auth.signInWithPassword({ email, password });
     if (error) return setAuthStatus(error.message, true);
     await refreshSupabaseAuthStatus();
   }
 
   async function signOutUser() {
-    if (!supabaseClient) return setAuthStatus('Supabase is not configured yet.', true);
-    const { error } = await supabaseClient.auth.signOut();
+    const client = createSupabaseClientIfPossible();
+    if (!client) return setAuthStatus('Supabase library did not load. Use the hosted file or check internet/CDN access.', true);
+    const { error } = await client.auth.signOut();
     if (error) return setAuthStatus(error.message, true);
     await refreshSupabaseAuthStatus();
   }
 
   async function getCurrentSupabaseUser() {
-    if (!supabaseClient) return null;
-    const { data } = await supabaseClient.auth.getUser();
+    const client = createSupabaseClientIfPossible();
+    if (!client) return null;
+    const { data } = await client.auth.getUser();
     return data?.user || null;
   }
 
