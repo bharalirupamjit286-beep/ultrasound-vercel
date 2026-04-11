@@ -264,7 +264,502 @@
       .report-brand-bar, .report-footer { flex-direction: column; align-items: start; }
       .signature-box, .brand-meta { text-align: left; }
     }
-  </style>
+  
+  body.workstation-ui .scan-form-shell {
+    display: grid;
+    gap: 14px;
+  }
+  body.workstation-ui .scan-form-tabs {
+    position: sticky;
+    top: 0;
+    z-index: 4;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+    border: 1px solid #dbe3f0;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.94);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+    backdrop-filter: blur(8px);
+  }
+  body.workstation-ui .scan-form-tab-btn {
+    border: 1px solid #cfe0ff;
+    background: #f8fbff;
+    color: #1e4e8c;
+    border-radius: 999px;
+    padding: 9px 14px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.2px;
+    cursor: pointer;
+  }
+  body.workstation-ui .scan-form-tab-btn.active {
+    background: #1e4e8c;
+    border-color: #1e4e8c;
+    color: #fff;
+  }
+  body.workstation-ui .scan-form-sections {
+    display: grid;
+    gap: 14px;
+  }
+  body.workstation-ui .scan-form-section {
+    display: none;
+    gap: 14px;
+  }
+  body.workstation-ui .scan-form-section.active {
+    display: grid;
+  }
+  body.workstation-ui .scan-form-section .card {
+    margin-bottom: 0 !important;
+  }
+  body.workstation-ui .scan-form-quicknote {
+    border: 1px dashed #d6deeb;
+    border-radius: 14px;
+    padding: 12px 14px;
+    background: #fcfdff;
+    color: #5a6b80;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  @media (max-width: 980px) {
+    body.workstation-ui .scan-form-tabs {
+      position: static;
+      overflow-x: auto;
+      flex-wrap: nowrap;
+    }
+  }
+
+</style>
+
+<style id="workstation-ui-upgrade">
+  html, body { height: 100%; }
+  body.workstation-ui {
+    overflow: hidden;
+    background: #eef3f9;
+  }
+  body.workstation-ui .container {
+    max-width: none;
+    width: 100%;
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+  }
+  body.workstation-ui .header.no-print {
+    display: none !important;
+  }
+  body.workstation-ui .app-shell {
+    display: grid;
+    grid-template-columns: 250px minmax(0, 1fr);
+    height: 100vh;
+    width: 100%;
+  }
+  body.workstation-ui .app-sidebar {
+    background: linear-gradient(180deg, #102d53 0%, #173d6b 60%, #1e4e8c 100%);
+    color: #fff;
+    padding: 18px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    box-shadow: 8px 0 30px rgba(15, 23, 42, 0.12);
+    z-index: 5;
+  }
+  body.workstation-ui .app-brand {
+    padding: 14px 12px 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.16);
+  }
+  body.workstation-ui .app-brand-title {
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: 0.2px;
+  }
+  body.workstation-ui .app-brand-sub {
+    font-size: 12px;
+    line-height: 1.55;
+    color: rgba(255,255,255,0.82);
+    margin-top: 6px;
+  }
+  body.workstation-ui .app-nav {
+    display: grid;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  body.workstation-ui .app-nav-btn {
+    width: 100%;
+    text-align: left;
+    padding: 12px 14px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.06);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s ease;
+  }
+  body.workstation-ui .app-nav-btn:hover,
+  body.workstation-ui .app-nav-btn.active {
+    background: rgba(255,255,255,0.18);
+    border-color: rgba(255,255,255,0.28);
+    transform: translateX(2px);
+  }
+  body.workstation-ui .app-sidebar-note {
+    margin-top: auto;
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    font-size: 12px;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.86);
+  }
+  body.workstation-ui .app-main {
+    min-width: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  body.workstation-ui .app-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    padding: 16px 22px;
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #dbe3f0;
+  }
+  body.workstation-ui .app-topbar-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #143a6d;
+    margin: 0;
+    line-height: 1.15;
+  }
+  body.workstation-ui .app-topbar-sub {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+  body.workstation-ui .app-topbar-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid #cfe0ff;
+    background: #f8fbff;
+    color: #1e4e8c;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.25px;
+    white-space: nowrap;
+  }
+  body.workstation-ui .app-pages {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    padding: 18px;
+  }
+  body.workstation-ui .app-page {
+    display: none;
+    height: 100%;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 6px;
+  }
+  body.workstation-ui .app-page.active {
+    display: block;
+  }
+  body.workstation-ui .app-grid-2,
+  body.workstation-ui .app-grid-1 {
+    display: grid;
+    gap: 18px;
+    align-items: start;
+  }
+  body.workstation-ui .app-grid-2 {
+    grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  }
+  body.workstation-ui .app-grid-1 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  body.workstation-ui .app-section-stack {
+    display: grid;
+    gap: 18px;
+  }
+  body.workstation-ui .app-page .card,
+  body.workstation-ui .app-page .tabs,
+  body.workstation-ui .app-page .tab-panel {
+    margin-bottom: 18px;
+  }
+  body.workstation-ui .app-page .tabs.no-print {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background: #eef3f9;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+  }
+  body.workstation-ui .app-page .tab-panel {
+    display: none;
+  }
+  body.workstation-ui .app-page .tab-panel.active {
+    display: block;
+  }
+  body.workstation-ui .workspace-scan-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+    min-height: 100%;
+  }
+  body.workstation-ui .scan-console {
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr);
+    gap: 18px;
+    align-items: start;
+    min-height: calc(100vh - 250px);
+  }
+  body.workstation-ui .scan-console-pane {
+    min-width: 0;
+  }
+  body.workstation-ui .scan-console-input {
+    overflow: visible;
+  }
+  body.workstation-ui .scan-console-preview {
+    position: sticky;
+    top: 58px;
+    display: grid;
+    gap: 12px;
+    align-self: start;
+  }
+  body.workstation-ui .scan-console .grid.no-print {
+    margin-bottom: 0;
+  }
+  body.workstation-ui .scan-console-preview > .card.printable {
+    margin-bottom: 0;
+  }
+  body.workstation-ui .scan-console-preview .card-body {
+    max-height: calc(100vh - 300px);
+    overflow: auto;
+  }
+  body.workstation-ui .preview-action-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 12px;
+    border: 1px solid #dbe3f0;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.96);
+    box-shadow: 0 10px 26px rgba(15, 23, 42, 0.07);
+    backdrop-filter: blur(10px);
+  }
+  body.workstation-ui .preview-action-bar .mini-btn {
+    background: #fff;
+    border-color: #d7e4f7;
+  }
+  body.workstation-ui .preview-action-bar .mini-btn.primary-action {
+    background: #1e4e8c;
+    border-color: #1e4e8c;
+    color: #fff;
+  }
+  body.workstation-ui .preview-action-bar .mini-btn.ghost-action {
+    background: #f8fbff;
+  }
+  body.workstation-ui .preview-action-helper {
+    flex-basis: 100%;
+    font-size: 12px;
+    color: #5a6b80;
+    line-height: 1.55;
+    padding-top: 2px;
+  }
+  body.workstation-ui .compact-card > .card-head {
+    background: linear-gradient(90deg, #f8fbff 0%, #ffffff 100%);
+  }
+  body.workstation-ui .dashboard-welcome {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(260px, 0.9fr);
+    gap: 18px;
+    margin-bottom: 18px;
+  }
+  body.workstation-ui .dashboard-hero {
+    border: 1px solid #dbe3f0;
+    border-radius: 22px;
+    background: linear-gradient(135deg, #153962 0%, #245893 100%);
+    color: #fff;
+    padding: 22px;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
+  }
+  body.workstation-ui .dashboard-hero h2 {
+    margin: 0 0 10px;
+    font-size: 24px;
+    line-height: 1.15;
+  }
+  body.workstation-ui .dashboard-hero p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.88);
+  }
+  body.workstation-ui .dashboard-shortcuts {
+    display: grid;
+    gap: 12px;
+  }
+  body.workstation-ui .dashboard-shortcut {
+    border: 1px solid #dbe3f0;
+    border-radius: 18px;
+    background: #fff;
+    padding: 16px;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+  }
+  body.workstation-ui .dashboard-shortcut strong {
+    display: block;
+    color: #16375b;
+    margin-bottom: 6px;
+    font-size: 14px;
+  }
+  body.workstation-ui .dashboard-shortcut span {
+    font-size: 12px;
+    color: #5a6b80;
+    line-height: 1.55;
+  }
+  body.workstation-ui .app-page::-webkit-scrollbar { width: 10px; }
+  body.workstation-ui .app-page::-webkit-scrollbar-thumb {
+    background: #c7d7ee;
+    border-radius: 999px;
+    border: 2px solid #eef3f9;
+  }
+  @media (max-width: 1100px) {
+    body.workstation-ui .app-shell {
+      grid-template-columns: 86px minmax(0, 1fr);
+    }
+    body.workstation-ui .app-brand-sub,
+    body.workstation-ui .app-sidebar-note,
+    body.workstation-ui .app-nav-btn span {
+      display: none;
+    }
+    body.workstation-ui .app-nav-btn {
+      text-align: center;
+      padding: 12px 10px;
+      font-size: 12px;
+    }
+    body.workstation-ui .app-grid-2,
+    body.workstation-ui .dashboard-welcome,
+    body.workstation-ui .scan-console {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    body.workstation-ui .scan-console-preview {
+      position: static;
+    }
+    body.workstation-ui .scan-console-preview .card-body {
+      max-height: none;
+      overflow: visible;
+    }
+  }
+  @media (max-width: 820px) {
+    body.workstation-ui { overflow: auto; }
+    body.workstation-ui .container,
+    body.workstation-ui .app-shell,
+    body.workstation-ui .app-main {
+      height: auto;
+      min-height: 100vh;
+    }
+    body.workstation-ui .app-shell {
+      display: block;
+    }
+    body.workstation-ui .app-sidebar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 12px;
+    }
+    body.workstation-ui .app-nav {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    body.workstation-ui .app-nav-btn span {
+      display: inline;
+    }
+    body.workstation-ui .app-pages {
+      overflow: visible;
+    }
+    body.workstation-ui .app-page {
+      height: auto;
+      overflow: visible;
+      padding-right: 0;
+    }
+  }
+
+  body.workstation-ui .scan-form-shell {
+    display: grid;
+    gap: 14px;
+  }
+  body.workstation-ui .scan-form-tabs {
+    position: sticky;
+    top: 0;
+    z-index: 4;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+    border: 1px solid #dbe3f0;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.94);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+    backdrop-filter: blur(8px);
+  }
+  body.workstation-ui .scan-form-tab-btn {
+    border: 1px solid #cfe0ff;
+    background: #f8fbff;
+    color: #1e4e8c;
+    border-radius: 999px;
+    padding: 9px 14px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.2px;
+    cursor: pointer;
+  }
+  body.workstation-ui .scan-form-tab-btn.active {
+    background: #1e4e8c;
+    border-color: #1e4e8c;
+    color: #fff;
+  }
+  body.workstation-ui .scan-form-sections {
+    display: grid;
+    gap: 14px;
+  }
+  body.workstation-ui .scan-form-section {
+    display: none;
+    gap: 14px;
+  }
+  body.workstation-ui .scan-form-section.active {
+    display: grid;
+  }
+  body.workstation-ui .scan-form-section .card {
+    margin-bottom: 0 !important;
+  }
+  body.workstation-ui .scan-form-quicknote {
+    border: 1px dashed #d6deeb;
+    border-radius: 14px;
+    padding: 12px 14px;
+    background: #fcfdff;
+    color: #5a6b80;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  @media (max-width: 980px) {
+    body.workstation-ui .scan-form-tabs {
+      position: static;
+      overflow-x: auto;
+      flex-wrap: nowrap;
+    }
+  }
+
+</style>
+
 </head>
 <body>
   <div class="container">
@@ -4849,7 +5344,776 @@
         var address = ($('brandAddress') && $('brandAddress').value ? $('brandAddress').value.trim() : '') || '-';
         var contact = ($('brandContact') && $('brandContact').value ? $('brandContact').value.trim() : '') || '-';
         var consultant = ($('brandConsultant') && $('brandConsultant').value ? $('brandConsultant').value.trim() : '') || 'Dr Consultant Name';
-        return '<!DOCTYPE html><html><head><title>Reception Receipt</title><style>body{font-family:Arial,Helvetica,sans-serif;margin:24px;color:#111827;} .box{max-width:760px;margin:0 auto;border:1px solid #dbe3f0;border-radius:16px;padding:24px;} h1{margin:0 0 6px;font-size:24px;color:#16375b;} .sub{color:#475569;font-size:13px;line-height:1.6;} table{width:100%;border-collapse:collapse;margin-top:18px;font-size:13px;} td,th{border:1px solid #dbe3f0;padding:8px 10px;text-align:left;} th{background:#f8fbff;} .meta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px;} .chip{border:1px solid #dbe3f0;border-radius:12px;padding:10px 12px;background:#fff;}</style></head><body><div class="box"><h1>' + escapeHtml(clinic) + '</h1><div class="sub">' + escapeHtml(branch) + '<br>' + escapeHtml(address) + '<br>' + escapeHtml(contact) + '</div><div class="meta"><div class="chip"><strong>Receipt No.</strong><br>' + escapeHtml(record.receiptNo || '-') + '</div><div class="chip"><strong>Token</strong><br>' + escapeHtml(record.tokenNo || '-') + '</div><div class="chip"><strong>Date</strong><br>' + escapeHtml(formatDate(record.appointmentDate || record.createdAt)) + '</div></div><table><tr><th>Patient name</th><td>' + escapeHtml(record.patientName || '-') + '</td><th>UHID</th><td>' + escapeHtml(record.patientId || '-') + '</td></tr><tr><th>Age</th><td>' + escapeHtml(String(record.age || '-')) + '</td><th>Phone</th><td>' + escapeHtml(record.phone || '-') + '</td></tr><tr><th>Relative</th><td>' + escapeHtml(record.relativeName || '-') + '</td><th>Requested study</th><td>' + escapeHtml(getReceptionScanLabel(record.scanType)) + '</td></tr><tr><th>Referring doctor</th><td>' + escapeHtml(record.referringDoctor || '-') + '</td><th>Queue status</th><td>' + escapeHtml(titleCase(String(record.queueStatus || '').replace(/_/g, ' '))) + '</td></tr><tr><th>Amount</th><td>Rs ' + escapeHtml(String(record.amount || '0.00')) + '</td><th>Amount paid</th><td>Rs ' + escapeHtml(String(record.amountPaid || '0.00')) + '</td></tr><tr><th>Balance</th><td>Rs ' + escapeHtml(String(record.balance || '0.00')) + '</td><th>Payment status</th><td>' + escapeHtml(titleCase(String(record.paymentStatus || '').replace(/_/g, ' '))) + '</td></tr><tr><th>Indication / note</th><td colspan="3">' + escapeHtml(record.indication || record.notes || '-') + '</td></tr></table><div class="sub" style="margin-top:18px;">Receipt generated from the center front-desk workflow. Consultant / center reference: ' + escapeHtml(consultant) + '.</div></div></body></html>';
+        return '<!DOCTYPE html><html><head><title>Reception Receipt</title><style>body{font-family:Arial,Helvetica,sans-serif;margin:24px;color:#111827;} .box{max-width:760px;margin:0 auto;border:1px solid #dbe3f0;border-radius:16px;padding:24px;} h1{margin:0 0 6px;font-size:24px;color:#16375b;} .sub{color:#475569;font-size:13px;line-height:1.6;} table{width:100%;border-collapse:collapse;margin-top:18px;font-size:13px;} td,th{border:1px solid #dbe3f0;padding:8px 10px;text-align:left;} th{background:#f8fbff;} .meta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px;} .chip{border:1px solid #dbe3f0;border-radius:12px;padding:10px 12px;background:#fff;}
+  body.workstation-ui .scan-form-shell {
+    display: grid;
+    gap: 14px;
+  }
+  body.workstation-ui .scan-form-tabs {
+    position: sticky;
+    top: 0;
+    z-index: 4;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+    border: 1px solid #dbe3f0;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.94);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+    backdrop-filter: blur(8px);
+  }
+  body.workstation-ui .scan-form-tab-btn {
+    border: 1px solid #cfe0ff;
+    background: #f8fbff;
+    color: #1e4e8c;
+    border-radius: 999px;
+    padding: 9px 14px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.2px;
+    cursor: pointer;
+  }
+  body.workstation-ui .scan-form-tab-btn.active {
+    background: #1e4e8c;
+    border-color: #1e4e8c;
+    color: #fff;
+  }
+  body.workstation-ui .scan-form-sections {
+    display: grid;
+    gap: 14px;
+  }
+  body.workstation-ui .scan-form-section {
+    display: none;
+    gap: 14px;
+  }
+  body.workstation-ui .scan-form-section.active {
+    display: grid;
+  }
+  body.workstation-ui .scan-form-section .card {
+    margin-bottom: 0 !important;
+  }
+  body.workstation-ui .scan-form-quicknote {
+    border: 1px dashed #d6deeb;
+    border-radius: 14px;
+    padding: 12px 14px;
+    background: #fcfdff;
+    color: #5a6b80;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  @media (max-width: 980px) {
+    body.workstation-ui .scan-form-tabs {
+      position: static;
+      overflow-x: auto;
+      flex-wrap: nowrap;
+    }
+  }
+
+</style>
+<style id="workstation-ui-upgrade">
+  html, body { height: 100%; }
+  body.workstation-ui {
+    overflow: hidden;
+    background: #eef3f9;
+  }
+  body.workstation-ui .container {
+    max-width: none;
+    width: 100%;
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+  }
+  body.workstation-ui .header.no-print {
+    display: none !important;
+  }
+  body.workstation-ui .app-shell {
+    display: grid;
+    grid-template-columns: 250px minmax(0, 1fr);
+    height: 100vh;
+    width: 100%;
+  }
+  body.workstation-ui .app-sidebar {
+    background: linear-gradient(180deg, #102d53 0%, #173d6b 60%, #1e4e8c 100%);
+    color: #fff;
+    padding: 18px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    box-shadow: 8px 0 30px rgba(15, 23, 42, 0.12);
+    z-index: 5;
+  }
+  body.workstation-ui .app-brand {
+    padding: 14px 12px 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.16);
+  }
+  body.workstation-ui .app-brand-title {
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: 0.2px;
+  }
+  body.workstation-ui .app-brand-sub {
+    font-size: 12px;
+    line-height: 1.55;
+    color: rgba(255,255,255,0.82);
+    margin-top: 6px;
+  }
+  body.workstation-ui .app-nav {
+    display: grid;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  body.workstation-ui .app-nav-btn {
+    width: 100%;
+    text-align: left;
+    padding: 12px 14px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.06);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s ease;
+  }
+  body.workstation-ui .app-nav-btn:hover,
+  body.workstation-ui .app-nav-btn.active {
+    background: rgba(255,255,255,0.18);
+    border-color: rgba(255,255,255,0.28);
+    transform: translateX(2px);
+  }
+  body.workstation-ui .app-sidebar-note {
+    margin-top: auto;
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    font-size: 12px;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.86);
+  }
+  body.workstation-ui .app-main {
+    min-width: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  body.workstation-ui .app-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    padding: 16px 22px;
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #dbe3f0;
+  }
+  body.workstation-ui .app-topbar-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #143a6d;
+    margin: 0;
+    line-height: 1.15;
+  }
+  body.workstation-ui .app-topbar-sub {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+  body.workstation-ui .app-topbar-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid #cfe0ff;
+    background: #f8fbff;
+    color: #1e4e8c;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.25px;
+    white-space: nowrap;
+  }
+  body.workstation-ui .app-pages {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    padding: 18px;
+  }
+  body.workstation-ui .app-page {
+    display: none;
+    height: 100%;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 6px;
+  }
+  body.workstation-ui .app-page.active {
+    display: block;
+  }
+  body.workstation-ui .app-grid-2,
+  body.workstation-ui .app-grid-1 {
+    display: grid;
+    gap: 18px;
+    align-items: start;
+  }
+  body.workstation-ui .app-grid-2 {
+    grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  }
+  body.workstation-ui .app-grid-1 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  body.workstation-ui .app-section-stack {
+    display: grid;
+    gap: 18px;
+  }
+  body.workstation-ui .app-page .card,
+  body.workstation-ui .app-page .tabs,
+  body.workstation-ui .app-page .tab-panel {
+    margin-bottom: 18px;
+  }
+  body.workstation-ui .app-page .tabs.no-print {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background: #eef3f9;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+  }
+  body.workstation-ui .app-page .tab-panel {
+    display: none;
+  }
+  body.workstation-ui .app-page .tab-panel.active {
+    display: block;
+  }
+  body.workstation-ui .workspace-scan-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+  body.workstation-ui .compact-card > .card-head {
+    background: linear-gradient(90deg, #f8fbff 0%, #ffffff 100%);
+  }
+  body.workstation-ui .dashboard-welcome {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(260px, 0.9fr);
+    gap: 18px;
+    margin-bottom: 18px;
+  }
+  body.workstation-ui .dashboard-hero {
+    border: 1px solid #dbe3f0;
+    border-radius: 22px;
+    background: linear-gradient(135deg, #153962 0%, #245893 100%);
+    color: #fff;
+    padding: 22px;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
+  }
+  body.workstation-ui .dashboard-hero h2 {
+    margin: 0 0 10px;
+    font-size: 24px;
+    line-height: 1.15;
+  }
+  body.workstation-ui .dashboard-hero p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.88);
+  }
+  body.workstation-ui .dashboard-shortcuts {
+    display: grid;
+    gap: 12px;
+  }
+  body.workstation-ui .dashboard-shortcut {
+    border: 1px solid #dbe3f0;
+    border-radius: 18px;
+    background: #fff;
+    padding: 16px;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+  }
+  body.workstation-ui .dashboard-shortcut strong {
+    display: block;
+    color: #16375b;
+    margin-bottom: 6px;
+    font-size: 14px;
+  }
+  body.workstation-ui .dashboard-shortcut span {
+    font-size: 12px;
+    color: #5a6b80;
+    line-height: 1.55;
+  }
+  body.workstation-ui .app-page::-webkit-scrollbar { width: 10px; }
+  body.workstation-ui .app-page::-webkit-scrollbar-thumb {
+    background: #c7d7ee;
+    border-radius: 999px;
+    border: 2px solid #eef3f9;
+  }
+  @media (max-width: 1100px) {
+    body.workstation-ui .app-shell {
+      grid-template-columns: 86px minmax(0, 1fr);
+    }
+    body.workstation-ui .app-brand-sub,
+    body.workstation-ui .app-sidebar-note,
+    body.workstation-ui .app-nav-btn span {
+      display: none;
+    }
+    body.workstation-ui .app-nav-btn {
+      text-align: center;
+      padding: 12px 10px;
+      font-size: 12px;
+    }
+    body.workstation-ui .app-grid-2,
+    body.workstation-ui .dashboard-welcome {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  @media (max-width: 820px) {
+    body.workstation-ui { overflow: auto; }
+    body.workstation-ui .container,
+    body.workstation-ui .app-shell,
+    body.workstation-ui .app-main {
+      height: auto;
+      min-height: 100vh;
+    }
+    body.workstation-ui .app-shell {
+      display: block;
+    }
+    body.workstation-ui .app-sidebar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 12px;
+    }
+    body.workstation-ui .app-nav {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    body.workstation-ui .app-nav-btn span {
+      display: inline;
+    }
+    body.workstation-ui .app-pages {
+      overflow: visible;
+    }
+    body.workstation-ui .app-page {
+      height: auto;
+      overflow: visible;
+      padding-right: 0;
+    }
+  }
+
+  body.workstation-ui .scan-form-shell {
+    display: grid;
+    gap: 14px;
+  }
+  body.workstation-ui .scan-form-tabs {
+    position: sticky;
+    top: 0;
+    z-index: 4;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+    border: 1px solid #dbe3f0;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.94);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+    backdrop-filter: blur(8px);
+  }
+  body.workstation-ui .scan-form-tab-btn {
+    border: 1px solid #cfe0ff;
+    background: #f8fbff;
+    color: #1e4e8c;
+    border-radius: 999px;
+    padding: 9px 14px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.2px;
+    cursor: pointer;
+  }
+  body.workstation-ui .scan-form-tab-btn.active {
+    background: #1e4e8c;
+    border-color: #1e4e8c;
+    color: #fff;
+  }
+  body.workstation-ui .scan-form-sections {
+    display: grid;
+    gap: 14px;
+  }
+  body.workstation-ui .scan-form-section {
+    display: none;
+    gap: 14px;
+  }
+  body.workstation-ui .scan-form-section.active {
+    display: grid;
+  }
+  body.workstation-ui .scan-form-section .card {
+    margin-bottom: 0 !important;
+  }
+  body.workstation-ui .scan-form-quicknote {
+    border: 1px dashed #d6deeb;
+    border-radius: 14px;
+    padding: 12px 14px;
+    background: #fcfdff;
+    color: #5a6b80;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  @media (max-width: 980px) {
+    body.workstation-ui .scan-form-tabs {
+      position: static;
+      overflow-x: auto;
+      flex-wrap: nowrap;
+    }
+  }
+
+</style>
+
+</head><body><div class="box"><h1>' + escapeHtml(clinic) + '</h1><div class="sub">' + escapeHtml(branch) + '<br>' + escapeHtml(address) + '<br>' + escapeHtml(contact) + '</div><div class="meta"><div class="chip"><strong>Receipt No.</strong><br>' + escapeHtml(record.receiptNo || '-') + '</div><div class="chip"><strong>Token</strong><br>' + escapeHtml(record.tokenNo || '-') + '</div><div class="chip"><strong>Date</strong><br>' + escapeHtml(formatDate(record.appointmentDate || record.createdAt)) + '</div></div><table><tr><th>Patient name</th><td>' + escapeHtml(record.patientName || '-') + '</td><th>UHID</th><td>' + escapeHtml(record.patientId || '-') + '</td></tr><tr><th>Age</th><td>' + escapeHtml(String(record.age || '-')) + '</td><th>Phone</th><td>' + escapeHtml(record.phone || '-') + '</td></tr><tr><th>Relative</th><td>' + escapeHtml(record.relativeName || '-') + '</td><th>Requested study</th><td>' + escapeHtml(getReceptionScanLabel(record.scanType)) + '</td></tr><tr><th>Referring doctor</th><td>' + escapeHtml(record.referringDoctor || '-') + '</td><th>Queue status</th><td>' + escapeHtml(titleCase(String(record.queueStatus || '').replace(/_/g, ' '))) + '</td></tr><tr><th>Amount</th><td>Rs ' + escapeHtml(String(record.amount || '0.00')) + '</td><th>Amount paid</th><td>Rs ' + escapeHtml(String(record.amountPaid || '0.00')) + '</td></tr><tr><th>Balance</th><td>Rs ' + escapeHtml(String(record.balance || '0.00')) + '</td><th>Payment status</th><td>' + escapeHtml(titleCase(String(record.paymentStatus || '').replace(/_/g, ' '))) + '</td></tr><tr><th>Indication / note</th><td colspan="3">' + escapeHtml(record.indication || record.notes || '-') + '</td></tr></table><div class="sub" style="margin-top:18px;">Receipt generated from the center front-desk workflow. Consultant / center reference: ' + escapeHtml(consultant) + '.</div></div>
+<script id="workstation-ui-script">
+(function () {
+  function create(tag, className, text) {
+    var el = document.createElement(tag);
+    if (className) el.className = className;
+    if (text) el.textContent = text;
+    return el;
+  }
+
+  function moveAll(target, nodes) {
+    nodes.forEach(function (node) {
+      if (node && target && node.parentNode) target.appendChild(node);
+    });
+  }
+
+  function buildShell() {
+    var container = document.querySelector('body > .container');
+    if (!container || document.querySelector('.app-shell')) return;
+
+    document.body.classList.add('workstation-ui');
+
+    var header = container.querySelector('.header.no-print');
+    var title = header && header.querySelector('h1') ? header.querySelector('h1').textContent.trim() : 'Obstetric Reporting Workstation';
+    var subtitle = header && header.querySelector('p') ? header.querySelector('p').textContent.trim() : 'Structured fetal imaging workflow';
+
+    var ids = {
+      supabase: document.getElementById('supabaseAuthCard'),
+      superAdmin: document.getElementById('superAdminConsoleCard'),
+      center: document.getElementById('centerAccessCard'),
+      backend: document.getElementById('backendIntegrationCard'),
+      formF: document.getElementById('formFCard'),
+      printableFormF: document.getElementById('printable-formf'),
+      reportWorkspace: document.getElementById('reportWorkspaceCard'),
+      patientMaster: document.getElementById('patientMasterCard'),
+      reception: document.getElementById('receptionBillingCard')
+    };
+
+    var allCards = Array.from(container.children).filter(function (el) {
+      return el.nodeType === 1;
+    });
+
+    var complianceCard = allCards.find(function (el) {
+      return el.classList.contains('card') && !el.id && el.querySelector('.card-head h2') && el.querySelector('.card-head h2').textContent.indexOf('PCPNDT Compliance Notice') !== -1;
+    });
+
+    var testsCard = allCards.find(function (el) {
+      return el.classList.contains('tests');
+    });
+
+    var tabs = container.querySelector('.tabs.no-print');
+    var panels = Array.from(container.querySelectorAll('.tab-panel'));
+
+    var shell = create('div', 'app-shell');
+    var sidebar = create('aside', 'app-sidebar no-print');
+    var main = create('section', 'app-main');
+    var topbar = create('div', 'app-topbar no-print');
+    var pagesWrap = create('div', 'app-pages');
+
+    var brand = create('div', 'app-brand');
+    brand.innerHTML = '<div class="app-brand-title">' + title + '</div><div class="app-brand-sub">' + subtitle + '</div>';
+
+    var nav = create('div', 'app-nav');
+    var note = create('div', 'app-sidebar-note');
+    note.innerHTML = '<strong>Better workflow:</strong><br>Navigation is now split into focused work areas so the app no longer feels like one endless page.';
+
+    var topbarLeft = create('div', 'app-topbar-left');
+    topbarLeft.innerHTML = '<div class="app-topbar-title" id="appTopbarTitle">Dashboard</div><div class="app-topbar-sub" id="appTopbarSubtitle">Recent work, report tools, and daily workflow overview.</div>';
+
+    var topbarRight = create('div', 'app-topbar-right');
+    topbarRight.innerHTML = '<div class="app-topbar-chip" id="appTopbarChip">Workstation Mode</div>';
+
+    topbar.appendChild(topbarLeft);
+    topbar.appendChild(topbarRight);
+
+    var pageSpecs = [
+      { key: 'dashboard', label: 'Dashboard', sub: 'Recent work, report tools, and quick workflow access.' },
+      { key: 'scans', label: 'Scans', sub: 'Patient entry, scan tabs, live calculations, and report preview.' },
+      { key: 'patients', label: 'Patients', sub: 'Patient master, visit timeline, reception queue, and billing.' },
+      { key: 'reports', label: 'Reports', sub: 'Form F, printable previews, and report output utilities.' },
+      { key: 'admin', label: 'Admin', sub: 'Login, branding, backend, center controls, compliance, and owner tools.' }
+    ];
+
+    var pages = {};
+    pageSpecs.forEach(function (spec) {
+      var btn = create('button', 'app-nav-btn');
+      btn.type = 'button';
+      btn.dataset.page = spec.key;
+      btn.innerHTML = '<span>' + spec.label + '</span>';
+      nav.appendChild(btn);
+
+      var page = create('div', 'app-page');
+      page.id = 'app-page-' + spec.key;
+      page.dataset.label = spec.label;
+      page.dataset.subtitle = spec.sub;
+      pages[spec.key] = page;
+      pagesWrap.appendChild(page);
+    });
+
+    sidebar.appendChild(brand);
+    sidebar.appendChild(nav);
+    sidebar.appendChild(note);
+
+    main.appendChild(topbar);
+    main.appendChild(pagesWrap);
+    shell.appendChild(sidebar);
+    shell.appendChild(main);
+    container.appendChild(shell);
+
+    var dashboardIntro = create('div', 'dashboard-welcome');
+    dashboardIntro.innerHTML =
+      '<div class="dashboard-hero"><h2>Cleaner clinical workflow</h2><p>Your app has been reorganized into workstation sections so login, settings, reporting, patient management, and scan entry are no longer stacked in one massive scroll. Use the left navigation to switch work areas instantly.</p></div>' +
+      '<div class="dashboard-shortcuts">' +
+      '<div class="dashboard-shortcut"><strong>Scans</strong><span>All imaging tabs stay together with sticky tab switching and internal scrolling.</span></div>' +
+      '<div class="dashboard-shortcut"><strong>Patients</strong><span>Master records, longitudinal visits, reception flow, and billing stay in one place.</span></div>' +
+      '<div class="dashboard-shortcut"><strong>Admin</strong><span>Authentication, center settings, branding, backend sync, and super-admin tools are grouped together.</span></div>' +
+      '</div>';
+    pages.dashboard.appendChild(dashboardIntro);
+
+    var dashboardGrid = create('div', 'app-grid-2');
+    var dashboardLeft = create('div', 'app-section-stack');
+    var dashboardRight = create('div', 'app-section-stack');
+    dashboardGrid.appendChild(dashboardLeft);
+    dashboardGrid.appendChild(dashboardRight);
+    pages.dashboard.appendChild(dashboardGrid);
+
+    moveAll(dashboardLeft, [ids.reportWorkspace]);
+    moveAll(dashboardRight, [ids.formF]);
+
+    var scansWrap = create('div', 'workspace-scan-grid');
+    if (tabs) scansWrap.appendChild(tabs);
+    panels.forEach(function (panel) { scansWrap.appendChild(panel); });
+    pages.scans.appendChild(scansWrap);
+    enhanceScanPanels(panels);
+
+    var patientGrid = create('div', 'app-grid-2');
+    var patientLeft = create('div', 'app-section-stack');
+    var patientRight = create('div', 'app-section-stack');
+    patientGrid.appendChild(patientLeft);
+    patientGrid.appendChild(patientRight);
+    pages.patients.appendChild(patientGrid);
+    moveAll(patientLeft, [ids.patientMaster]);
+    moveAll(patientRight, [ids.reception]);
+
+    var reportsStack = create('div', 'app-section-stack');
+    pages.reports.appendChild(reportsStack);
+    moveAll(reportsStack, [ids.printableFormF]);
+
+    var adminStack = create('div', 'app-section-stack');
+    pages.admin.appendChild(adminStack);
+    moveAll(adminStack, [ids.supabase, ids.center, ids.backend, complianceCard, ids.superAdmin, testsCard]);
+
+    Array.from(container.children).forEach(function (el) {
+      if (el === header || el === shell) return;
+      if (el.nodeType !== 1) return;
+      if (pagesWrap.contains(el)) return;
+      if (el.classList.contains('header')) return;
+      if (el.parentNode === container) {
+        pages.admin.appendChild(el);
+      }
+    });
+
+    function triggerVisibleControl(panel, selectors, labelNeedle) {
+      var candidates = [];
+      selectors.forEach(function (selector) {
+        candidates = candidates.concat(Array.from(panel.querySelectorAll(selector)));
+      });
+      candidates = candidates.concat(Array.from(document.querySelectorAll(selectors.join(','))));
+      var seen = new Set();
+      candidates = candidates.filter(function (el) {
+        if (!el || seen.has(el)) return false;
+        seen.add(el);
+        return true;
+      });
+      var match = candidates.find(function (el) {
+        var text = (el.textContent || '').trim().toLowerCase();
+        var id = (el.id || '').toLowerCase();
+        var needle = String(labelNeedle || '').toLowerCase();
+        return !el.disabled && (text.indexOf(needle) !== -1 || id.indexOf(needle.replace(/\s+/g, '')) !== -1);
+      });
+      if (match) {
+        match.click();
+        return true;
+      }
+      return false;
+    }
+
+    function buildPreviewActionBar(panel) {
+      var bar = create('div', 'preview-action-bar no-print');
+      bar.innerHTML = '' +
+        '<button type="button" class="mini-btn ghost-action" data-action="refresh">Refresh</button>' +
+        '<button type="button" class="mini-btn" data-action="save">Save Draft</button>' +
+        '<button type="button" class="mini-btn primary-action" data-action="finalize">Finalize</button>' +
+        '<button type="button" class="mini-btn" data-action="print">Print</button>' +
+        '<button type="button" class="mini-btn" data-action="pdf">PDF</button>' +
+        '<button type="button" class="mini-btn" data-action="whatsapp">WhatsApp</button>' +
+        '<div class="preview-action-helper">Sticky actions for the active scan tab. These buttons call your existing report controls without changing the underlying logic.</div>';
+
+      bar.addEventListener('click', function (event) {
+        var btn = event.target.closest('[data-action]');
+        if (!btn) return;
+        var action = btn.dataset.action;
+        var handled = false;
+        if (action === 'refresh') handled = triggerVisibleControl(panel, ['button[id$="RefreshBtn"]', 'button[id*="RefreshBtn"]'], 'refresh');
+        if (action === 'save') handled = triggerVisibleControl(panel, ['#saveNewReportBtn', 'button[id*="save"]'], 'save');
+        if (action === 'finalize') handled = triggerVisibleControl(panel, ['#markFinalBtn', 'button[id*="final"]'], 'final');
+        if (action === 'print') handled = triggerVisibleControl(panel, ['button[id$="PrintBtn"]', '#printWorkspaceBtn', '#printBtn'], 'print');
+        if (action === 'pdf') handled = triggerVisibleControl(panel, ['#exportActivePdfBtn', '#downloadSignedPdfBtn', 'button[id*="pdf"]'], 'pdf');
+        if (action === 'whatsapp') handled = triggerVisibleControl(panel, ['#openWhatsAppShareBtn', '#copyWhatsAppTextBtn', 'button[id*="WhatsApp"]', 'button[id*="whatsapp"]'], 'whatsapp');
+        if (!handled) {
+          var helper = bar.querySelector('.preview-action-helper');
+          if (helper) helper.textContent = 'This action is not available in the current tab yet. Keep the original workflow button for that step.';
+        }
+      });
+      return bar;
+    }
+
+    function enhanceScanPanels(panelList) {
+      panelList.forEach(function (panel) {
+        if (!panel || panel.querySelector('.scan-console')) return;
+        var formGrid = panel.querySelector('.grid.no-print');
+        var printable = panel.querySelector('.card.printable');
+        if (!formGrid || !printable) return;
+        var consoleWrap = create('div', 'scan-console');
+        var inputPane = create('div', 'scan-console-pane scan-console-input');
+        var previewPane = create('div', 'scan-console-pane scan-console-preview');
+        formGrid.parentNode.insertBefore(consoleWrap, formGrid);
+        inputPane.appendChild(formGrid);
+        previewPane.appendChild(buildPreviewActionBar(panel));
+        previewPane.appendChild(printable);
+        consoleWrap.appendChild(inputPane);
+        consoleWrap.appendChild(previewPane);
+      });
+    }
+
+    function activatePage(key) {
+      Object.keys(pages).forEach(function (pageKey) {
+        pages[pageKey].classList.toggle('active', pageKey === key);
+      });
+      Array.from(nav.querySelectorAll('.app-nav-btn')).forEach(function (btn) {
+        btn.classList.toggle('active', btn.dataset.page === key);
+      });
+      var spec = pageSpecs.find(function (item) { return item.key === key; }) || pageSpecs[0];
+      var titleNode = document.getElementById('appTopbarTitle');
+      var subNode = document.getElementById('appTopbarSubtitle');
+      if (titleNode) titleNode.textContent = spec.label;
+      if (subNode) subNode.textContent = spec.sub;
+      try {
+        window.history.replaceState(null, '', '#view-' + key);
+      } catch (e) {}
+    }
+
+    nav.addEventListener('click', function (event) {
+      var btn = event.target.closest('.app-nav-btn');
+      if (!btn) return;
+      activatePage(btn.dataset.page);
+    });
+
+    var initial = (location.hash || '').replace('#view-', '');
+    if (!pages[initial]) initial = 'dashboard';
+    activatePage(initial);
+
+    container.dataset.uiUpgrade = 'workstation';
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', buildShell);
+  } else {
+    buildShell();
+  }
+})();
+</script>
+
+
+<script>
+(function () {
+  function setupScanFormTabs() {
+    var panels = document.querySelectorAll('.tab-panel');
+    panels.forEach(function(panel){
+      if (!panel || panel.dataset.formTabsReady === '1') return;
+      var inputPane = panel.querySelector('.scan-console-input');
+      if (!inputPane) return;
+      var firstStack = inputPane.querySelector('.grid.no-print > .stack');
+      if (!firstStack) return;
+      var cards = Array.from(firstStack.children).filter(function(el){ return el.classList && el.classList.contains('card'); });
+      if (cards.length <= 1) return;
+
+      var shell = document.createElement('div');
+      shell.className = 'scan-form-shell';
+      var tabs = document.createElement('div');
+      tabs.className = 'scan-form-tabs';
+      var note = document.createElement('div');
+      note.className = 'scan-form-quicknote';
+      note.textContent = 'Use these input tabs to move between patient details, measurements, anatomy, Doppler, and impressions without losing the live report preview.';
+      var sections = document.createElement('div');
+      sections.className = 'scan-form-sections';
+
+      cards.forEach(function(card, index){
+        var title = (card.querySelector('.card-head h2') || {}).textContent || ('Section ' + (index + 1));
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'scan-form-tab-btn' + (index === 0 ? ' active' : '');
+        btn.textContent = title.replace(/ Details$/i, '').replace(/ Entry$/i, '').trim();
+        btn.dataset.target = 'scan-form-section-' + index;
+        tabs.appendChild(btn);
+
+        var section = document.createElement('div');
+        section.className = 'scan-form-section' + (index === 0 ? ' active' : '');
+        section.id = btn.dataset.target;
+        section.appendChild(card);
+        sections.appendChild(section);
+      });
+
+      tabs.addEventListener('click', function(event){
+        var btn = event.target.closest('.scan-form-tab-btn');
+        if (!btn) return;
+        tabs.querySelectorAll('.scan-form-tab-btn').forEach(function(node){ node.classList.toggle('active', node === btn); });
+        sections.querySelectorAll('.scan-form-section').forEach(function(node){ node.classList.toggle('active', node.id === btn.dataset.target); });
+      });
+
+      shell.appendChild(tabs);
+      shell.appendChild(note);
+      shell.appendChild(sections);
+      firstStack.parentNode.insertBefore(shell, firstStack);
+      firstStack.remove();
+      panel.dataset.formTabsReady = '1';
+    });
+  }
+
+  function runWhenReady() {
+    setupScanFormTabs();
+    setTimeout(setupScanFormTabs, 300);
+    setTimeout(setupScanFormTabs, 1200);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runWhenReady);
+  } else {
+    runWhenReady();
+  }
+})();
+</script>
+
+</body></html>';
       }
       function printReceptionReceipt() {
         var record = currentLoadedReceptionId ? getSavedReceptionEntries().find(function(item) { return item.id === currentLoadedReceptionId; }) || null : null;
@@ -6075,5 +7339,274 @@
     await refreshSupabaseAuthStatus();
   });
 </script>
+
+<script id="workstation-ui-script">
+(function () {
+  function create(tag, className, text) {
+    var el = document.createElement(tag);
+    if (className) el.className = className;
+    if (text) el.textContent = text;
+    return el;
+  }
+
+  function moveAll(target, nodes) {
+    nodes.forEach(function (node) {
+      if (node && target && node.parentNode) target.appendChild(node);
+    });
+  }
+
+  function buildShell() {
+    var container = document.querySelector('body > .container');
+    if (!container || document.querySelector('.app-shell')) return;
+
+    document.body.classList.add('workstation-ui');
+
+    var header = container.querySelector('.header.no-print');
+    var title = header && header.querySelector('h1') ? header.querySelector('h1').textContent.trim() : 'Obstetric Reporting Workstation';
+    var subtitle = header && header.querySelector('p') ? header.querySelector('p').textContent.trim() : 'Structured fetal imaging workflow';
+
+    var ids = {
+      supabase: document.getElementById('supabaseAuthCard'),
+      superAdmin: document.getElementById('superAdminConsoleCard'),
+      center: document.getElementById('centerAccessCard'),
+      backend: document.getElementById('backendIntegrationCard'),
+      formF: document.getElementById('formFCard'),
+      printableFormF: document.getElementById('printable-formf'),
+      reportWorkspace: document.getElementById('reportWorkspaceCard'),
+      patientMaster: document.getElementById('patientMasterCard'),
+      reception: document.getElementById('receptionBillingCard')
+    };
+
+    var allCards = Array.from(container.children).filter(function (el) {
+      return el.nodeType === 1;
+    });
+
+    var complianceCard = allCards.find(function (el) {
+      return el.classList.contains('card') && !el.id && el.querySelector('.card-head h2') && el.querySelector('.card-head h2').textContent.indexOf('PCPNDT Compliance Notice') !== -1;
+    });
+
+    var testsCard = allCards.find(function (el) {
+      return el.classList.contains('tests');
+    });
+
+    var tabs = container.querySelector('.tabs.no-print');
+    var panels = Array.from(container.querySelectorAll('.tab-panel'));
+
+    var shell = create('div', 'app-shell');
+    var sidebar = create('aside', 'app-sidebar no-print');
+    var main = create('section', 'app-main');
+    var topbar = create('div', 'app-topbar no-print');
+    var pagesWrap = create('div', 'app-pages');
+
+    var brand = create('div', 'app-brand');
+    brand.innerHTML = '<div class="app-brand-title">' + title + '</div><div class="app-brand-sub">' + subtitle + '</div>';
+
+    var nav = create('div', 'app-nav');
+    var note = create('div', 'app-sidebar-note');
+    note.innerHTML = '<strong>Better workflow:</strong><br>Navigation is now split into focused work areas so the app no longer feels like one endless page.';
+
+    var topbarLeft = create('div', 'app-topbar-left');
+    topbarLeft.innerHTML = '<div class="app-topbar-title" id="appTopbarTitle">Dashboard</div><div class="app-topbar-sub" id="appTopbarSubtitle">Recent work, report tools, and daily workflow overview.</div>';
+
+    var topbarRight = create('div', 'app-topbar-right');
+    topbarRight.innerHTML = '<div class="app-topbar-chip" id="appTopbarChip">Workstation Mode</div>';
+
+    topbar.appendChild(topbarLeft);
+    topbar.appendChild(topbarRight);
+
+    var pageSpecs = [
+      { key: 'dashboard', label: 'Dashboard', sub: 'Recent work, report tools, and quick workflow access.' },
+      { key: 'scans', label: 'Scans', sub: 'Patient entry, scan tabs, live calculations, and report preview.' },
+      { key: 'patients', label: 'Patients', sub: 'Patient master, visit timeline, reception queue, and billing.' },
+      { key: 'reports', label: 'Reports', sub: 'Form F, printable previews, and report output utilities.' },
+      { key: 'admin', label: 'Admin', sub: 'Login, branding, backend, center controls, compliance, and owner tools.' }
+    ];
+
+    var pages = {};
+    pageSpecs.forEach(function (spec) {
+      var btn = create('button', 'app-nav-btn');
+      btn.type = 'button';
+      btn.dataset.page = spec.key;
+      btn.innerHTML = '<span>' + spec.label + '</span>';
+      nav.appendChild(btn);
+
+      var page = create('div', 'app-page');
+      page.id = 'app-page-' + spec.key;
+      page.dataset.label = spec.label;
+      page.dataset.subtitle = spec.sub;
+      pages[spec.key] = page;
+      pagesWrap.appendChild(page);
+    });
+
+    sidebar.appendChild(brand);
+    sidebar.appendChild(nav);
+    sidebar.appendChild(note);
+
+    main.appendChild(topbar);
+    main.appendChild(pagesWrap);
+    shell.appendChild(sidebar);
+    shell.appendChild(main);
+    container.appendChild(shell);
+
+    var dashboardIntro = create('div', 'dashboard-welcome');
+    dashboardIntro.innerHTML =
+      '<div class="dashboard-hero"><h2>Cleaner clinical workflow</h2><p>Your app has been reorganized into workstation sections so login, settings, reporting, patient management, and scan entry are no longer stacked in one massive scroll. Use the left navigation to switch work areas instantly.</p></div>' +
+      '<div class="dashboard-shortcuts">' +
+      '<div class="dashboard-shortcut"><strong>Scans</strong><span>All imaging tabs stay together with sticky tab switching and internal scrolling.</span></div>' +
+      '<div class="dashboard-shortcut"><strong>Patients</strong><span>Master records, longitudinal visits, reception flow, and billing stay in one place.</span></div>' +
+      '<div class="dashboard-shortcut"><strong>Admin</strong><span>Authentication, center settings, branding, backend sync, and super-admin tools are grouped together.</span></div>' +
+      '</div>';
+    pages.dashboard.appendChild(dashboardIntro);
+
+    var dashboardGrid = create('div', 'app-grid-2');
+    var dashboardLeft = create('div', 'app-section-stack');
+    var dashboardRight = create('div', 'app-section-stack');
+    dashboardGrid.appendChild(dashboardLeft);
+    dashboardGrid.appendChild(dashboardRight);
+    pages.dashboard.appendChild(dashboardGrid);
+
+    moveAll(dashboardLeft, [ids.reportWorkspace]);
+    moveAll(dashboardRight, [ids.formF]);
+
+    var scansWrap = create('div', 'workspace-scan-grid');
+    if (tabs) scansWrap.appendChild(tabs);
+    panels.forEach(function (panel) { scansWrap.appendChild(panel); });
+    pages.scans.appendChild(scansWrap);
+
+    var patientGrid = create('div', 'app-grid-2');
+    var patientLeft = create('div', 'app-section-stack');
+    var patientRight = create('div', 'app-section-stack');
+    patientGrid.appendChild(patientLeft);
+    patientGrid.appendChild(patientRight);
+    pages.patients.appendChild(patientGrid);
+    moveAll(patientLeft, [ids.patientMaster]);
+    moveAll(patientRight, [ids.reception]);
+
+    var reportsStack = create('div', 'app-section-stack');
+    pages.reports.appendChild(reportsStack);
+    moveAll(reportsStack, [ids.printableFormF]);
+
+    var adminStack = create('div', 'app-section-stack');
+    pages.admin.appendChild(adminStack);
+    moveAll(adminStack, [ids.supabase, ids.center, ids.backend, complianceCard, ids.superAdmin, testsCard]);
+
+    Array.from(container.children).forEach(function (el) {
+      if (el === header || el === shell) return;
+      if (el.nodeType !== 1) return;
+      if (pagesWrap.contains(el)) return;
+      if (el.classList.contains('header')) return;
+      if (el.parentNode === container) {
+        pages.admin.appendChild(el);
+      }
+    });
+
+    function activatePage(key) {
+      Object.keys(pages).forEach(function (pageKey) {
+        pages[pageKey].classList.toggle('active', pageKey === key);
+      });
+      Array.from(nav.querySelectorAll('.app-nav-btn')).forEach(function (btn) {
+        btn.classList.toggle('active', btn.dataset.page === key);
+      });
+      var spec = pageSpecs.find(function (item) { return item.key === key; }) || pageSpecs[0];
+      var titleNode = document.getElementById('appTopbarTitle');
+      var subNode = document.getElementById('appTopbarSubtitle');
+      if (titleNode) titleNode.textContent = spec.label;
+      if (subNode) subNode.textContent = spec.sub;
+      try {
+        window.history.replaceState(null, '', '#view-' + key);
+      } catch (e) {}
+    }
+
+    nav.addEventListener('click', function (event) {
+      var btn = event.target.closest('.app-nav-btn');
+      if (!btn) return;
+      activatePage(btn.dataset.page);
+    });
+
+    var initial = (location.hash || '').replace('#view-', '');
+    if (!pages[initial]) initial = 'dashboard';
+    activatePage(initial);
+
+    container.dataset.uiUpgrade = 'workstation';
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', buildShell);
+  } else {
+    buildShell();
+  }
+})();
+</script>
+
+
+<script>
+(function () {
+  function setupScanFormTabs() {
+    var panels = document.querySelectorAll('.tab-panel');
+    panels.forEach(function(panel){
+      if (!panel || panel.dataset.formTabsReady === '1') return;
+      var inputPane = panel.querySelector('.scan-console-input');
+      if (!inputPane) return;
+      var firstStack = inputPane.querySelector('.grid.no-print > .stack');
+      if (!firstStack) return;
+      var cards = Array.from(firstStack.children).filter(function(el){ return el.classList && el.classList.contains('card'); });
+      if (cards.length <= 1) return;
+
+      var shell = document.createElement('div');
+      shell.className = 'scan-form-shell';
+      var tabs = document.createElement('div');
+      tabs.className = 'scan-form-tabs';
+      var note = document.createElement('div');
+      note.className = 'scan-form-quicknote';
+      note.textContent = 'Use these input tabs to move between patient details, measurements, anatomy, Doppler, and impressions without losing the live report preview.';
+      var sections = document.createElement('div');
+      sections.className = 'scan-form-sections';
+
+      cards.forEach(function(card, index){
+        var title = (card.querySelector('.card-head h2') || {}).textContent || ('Section ' + (index + 1));
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'scan-form-tab-btn' + (index === 0 ? ' active' : '');
+        btn.textContent = title.replace(/ Details$/i, '').replace(/ Entry$/i, '').trim();
+        btn.dataset.target = 'scan-form-section-' + index;
+        tabs.appendChild(btn);
+
+        var section = document.createElement('div');
+        section.className = 'scan-form-section' + (index === 0 ? ' active' : '');
+        section.id = btn.dataset.target;
+        section.appendChild(card);
+        sections.appendChild(section);
+      });
+
+      tabs.addEventListener('click', function(event){
+        var btn = event.target.closest('.scan-form-tab-btn');
+        if (!btn) return;
+        tabs.querySelectorAll('.scan-form-tab-btn').forEach(function(node){ node.classList.toggle('active', node === btn); });
+        sections.querySelectorAll('.scan-form-section').forEach(function(node){ node.classList.toggle('active', node.id === btn.dataset.target); });
+      });
+
+      shell.appendChild(tabs);
+      shell.appendChild(note);
+      shell.appendChild(sections);
+      firstStack.parentNode.insertBefore(shell, firstStack);
+      firstStack.remove();
+      panel.dataset.formTabsReady = '1';
+    });
+  }
+
+  function runWhenReady() {
+    setupScanFormTabs();
+    setTimeout(setupScanFormTabs, 300);
+    setTimeout(setupScanFormTabs, 1200);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runWhenReady);
+  } else {
+    runWhenReady();
+  }
+})();
+</script>
+
 </body>
 </html>
