@@ -84,7 +84,7 @@ examTypeEl?.addEventListener('change', handleExamTypeChange);
   'l2Limbs',
   'l2SoftMarkers',
   'l2MajorAnomaly',
-  'l2Notes',
+  'l2Notes'
 ].forEach((id) => {
   const el = document.getElementById(id);
   if (el) {
@@ -152,31 +152,41 @@ examForm?.addEventListener('submit', async (e) => {
   const fhr = fhrEl?.value.trim() || '';
   const customReportHtml = reportHtmlEl?.value.trim() || '';
 
-  let parsedFindings = {};
+  let findings = {};
   let impression = '';
 
   if (currentExamType === 'NT Scan') {
-    parsedFindings = buildNtFindings();
-    if (gaText) parsedFindings.ga = gaText;
-    if (fhr) parsedFindings.fhr = fhr;
-    impression = generateNtImpression(parsedFindings);
+    findings = getNtData();
+    if (gaText) findings.ga = gaText;
+    if (fhr) findings.fhr = fhr;
+    impression = generateNtImpression(findings);
+    if (ntRiskSummary && ntRecommendation) {
+      const riskInfo = generateNtRisk(findings);
+      ntRiskSummary.textContent = riskInfo.risk;
+      ntRecommendation.textContent = riskInfo.recommendation;
+    }
   } else if (currentExamType === 'Level II Scan') {
-    parsedFindings = getLevel2Data();
-    if (gaText) parsedFindings.ga = gaText;
-    if (fhr) parsedFindings.fhr = fhr;
-    impression = generateLevel2Impression(parsedFindings);
+    findings = getLevel2Data();
+    if (gaText) findings.ga = gaText;
+    if (fhr) findings.fhr = fhr;
+    impression = generateLevel2Impression(findings);
+    if (l2Summary && l2Recommendation) {
+      const summaryInfo = generateLevel2Summary(findings);
+      l2Summary.textContent = summaryInfo.summary;
+      l2Recommendation.textContent = summaryInfo.recommendation;
+    }
   } else {
     const findingsRaw = findingsJsonEl?.value.trim() || '';
     if (findingsRaw) {
       try {
-        parsedFindings = JSON.parse(findingsRaw);
+        findings = JSON.parse(findingsRaw);
       } catch {
         examMsg.textContent = 'Findings JSON is invalid.';
         return;
       }
     }
-    if (gaText) parsedFindings.ga = gaText;
-    if (fhr) parsedFindings.fhr = fhr;
+    if (gaText) findings.ga = gaText;
+    if (fhr) findings.fhr = fhr;
     impression = impressionEl?.value.trim() || '';
   }
 
@@ -190,7 +200,7 @@ examForm?.addEventListener('submit', async (e) => {
       patient: selectedPatient,
       examType: currentExamType,
       examDate,
-      findings: parsedFindings,
+      findings,
       impression,
     });
 
@@ -200,7 +210,7 @@ examForm?.addEventListener('submit', async (e) => {
     exam_type: currentExamType,
     exam_date: examDate,
     status: 'draft',
-    findings: parsedFindings,
+    findings,
     impression,
     report_html: previewHtml,
     created_by: sessionData.user.id,
@@ -261,7 +271,7 @@ function resetModuleSummaries() {
   if (l2Recommendation) l2Recommendation.textContent = 'Not calculated';
 }
 
-function buildNtFindings() {
+function getNtData() {
   return {
     crl_mm: document.getElementById('ntCrl')?.value.trim() || '-',
     nt_mm: document.getElementById('ntValue')?.value.trim() || '-',
@@ -275,15 +285,15 @@ function buildNtFindings() {
 
 function getLevel2Data() {
   return {
-    fetalLie: document.getElementById('l2FetalLie')?.value || '-',
-    placenta: document.getElementById('l2Placenta')?.value || '-',
-    liquor: document.getElementById('l2Liquor')?.value || '-',
-    cervix: document.getElementById('l2Cervix')?.value || '-',
+    fetalLie: document.getElementById('l2FetalLie')?.value.trim() || '-',
+    placenta: document.getElementById('l2Placenta')?.value.trim() || '-',
+    liquor: document.getElementById('l2Liquor')?.value.trim() || '-',
+    cervix: document.getElementById('l2Cervix')?.value.trim() || '-',
 
-    bpd: document.getElementById('l2Bpd')?.value || '-',
-    hc: document.getElementById('l2Hc')?.value || '-',
-    ac: document.getElementById('l2Ac')?.value || '-',
-    fl: document.getElementById('l2Fl')?.value || '-',
+    bpd: document.getElementById('l2Bpd')?.value.trim() || '-',
+    hc: document.getElementById('l2Hc')?.value.trim() || '-',
+    ac: document.getElementById('l2Ac')?.value.trim() || '-',
+    fl: document.getElementById('l2Fl')?.value.trim() || '-',
 
     brain: document.getElementById('l2Brain')?.value || '-',
     face: document.getElementById('l2Face')?.value || '-',
@@ -294,8 +304,7 @@ function getLevel2Data() {
 
     softMarkers: document.getElementById('l2SoftMarkers')?.value || 'none',
     majorAnomaly: document.getElementById('l2MajorAnomaly')?.value || 'none',
-
-    notes: document.getElementById('l2Notes')?.value || '-',
+    notes: document.getElementById('l2Notes')?.value.trim() || '-',
   };
 }
 
@@ -323,13 +332,13 @@ function generateNtRisk(findings) {
 function generateNtImpression(findings) {
   const bits = [];
 
-  if (findings.crl_mm && findings.crl_mm !== '-') bits.push(`CRL measures ${findings.crl_mm} mm.`);
-  if (findings.nt_mm && findings.nt_mm !== '-') bits.push(`NT measures ${findings.nt_mm} mm.`);
-  if (findings.nasal_bone && findings.nasal_bone !== '-') bits.push(`Nasal bone is ${findings.nasal_bone}.`);
-  if (findings.ductus_venosus && findings.ductus_venosus !== '-') bits.push(`Ductus venosus flow is ${findings.ductus_venosus}.`);
-  if (findings.tricuspid_flow && findings.tricuspid_flow !== '-') bits.push(`Tricuspid flow is ${findings.tricuspid_flow}.`);
-  if (findings.soft_markers && findings.soft_markers !== 'none' && findings.soft_markers !== '-') bits.push('Soft markers are present.');
-  if (findings.nt_notes && findings.nt_notes !== '-') bits.push(findings.nt_notes);
+  if (findings.crl_mm !== '-') bits.push(`CRL measures ${findings.crl_mm} mm.`);
+  if (findings.nt_mm !== '-') bits.push(`NT measures ${findings.nt_mm} mm.`);
+  if (findings.nasal_bone !== '-') bits.push(`Nasal bone is ${findings.nasal_bone}.`);
+  if (findings.ductus_venosus !== '-') bits.push(`Ductus venosus flow is ${findings.ductus_venosus}.`);
+  if (findings.tricuspid_flow !== '-') bits.push(`Tricuspid flow is ${findings.tricuspid_flow}.`);
+  if (findings.soft_markers !== 'none' && findings.soft_markers !== '-') bits.push('Soft markers are present.');
+  if (findings.nt_notes !== '-') bits.push(findings.nt_notes);
 
   const riskInfo = generateNtRisk(findings);
   bits.push(`Overall first trimester screening impression: ${riskInfo.risk}.`);
@@ -387,7 +396,7 @@ function generateLevel2Impression(data) {
 
   if (data.softMarkers === 'present') bits.push('Soft marker(s) are present.');
   if (data.majorAnomaly === 'present') bits.push('Major anomaly is present / suspected.');
-  if (data.notes && data.notes !== '-') bits.push(data.notes);
+  if (data.notes !== '-') bits.push(data.notes);
 
   const info = generateLevel2Summary(data);
   bits.push(info.summary);
@@ -402,7 +411,10 @@ function liveExamPreview() {
   const current = examTypeEl?.value || '';
 
   if (current === 'NT Scan') {
-    const findings = buildNtFindings();
+    const findings = getNtData();
+    if (gaTextEl?.value.trim()) findings.ga = gaTextEl.value.trim();
+    if (fhrEl?.value.trim()) findings.fhr = fhrEl.value.trim();
+
     const impression = generateNtImpression(findings);
     const riskInfo = generateNtRisk(findings);
 
@@ -418,9 +430,12 @@ function liveExamPreview() {
       impression,
     });
   } else if (current === 'Level II Scan') {
-    const level2 = getLevel2Data();
-    const summaryInfo = generateLevel2Summary(level2);
-    const impression = generateLevel2Impression(level2);
+    const findings = getLevel2Data();
+    if (gaTextEl?.value.trim()) findings.ga = gaTextEl.value.trim();
+    if (fhrEl?.value.trim()) findings.fhr = fhrEl.value.trim();
+
+    const summaryInfo = generateLevel2Summary(findings);
+    const impression = generateLevel2Impression(findings);
 
     if (l2Summary) l2Summary.textContent = summaryInfo.summary;
     if (l2Recommendation) l2Recommendation.textContent = summaryInfo.recommendation;
@@ -430,7 +445,7 @@ function liveExamPreview() {
       patient: selectedPatient,
       examType: 'Level II Scan',
       examDate: examDateEl?.value || null,
-      findings: level2,
+      findings,
       impression,
     });
   }
@@ -454,18 +469,14 @@ function renderPatients() {
     return;
   }
 
-  patientList.innerHTML = rows
-    .map(
-      (row) => `
+  patientList.innerHTML = rows.map((row) => `
     <button class="patient-row ${selectedPatient?.id === row.id ? 'patient-row-active' : ''}" data-id="${row.id}" type="button">
       <strong>${escapeHtml(row.patient_name)}</strong>
       <span>${escapeHtml(row.patient_uid || '-')}</span>
       <span>${escapeHtml(row.age || '-')} · ${escapeHtml(row.sex || '-')}</span>
       <span>${escapeHtml(row.phone || '-')}</span>
     </button>
-  `
-    )
-    .join('');
+  `).join('');
 
   patientList.querySelectorAll('[data-id]').forEach((btn) => {
     btn.addEventListener('click', () => {
@@ -548,18 +559,14 @@ async function loadExaminations() {
     return;
   }
 
-  examList.innerHTML = data
-    .map(
-      (row) => `
+  examList.innerHTML = data.map((row) => `
     <button class="exam-row" data-exam-id="${row.id}" type="button">
       <strong>${escapeHtml(row.exam_type)}</strong>
       <span>${escapeHtml(row.exam_date || '-')}</span>
       <span>${escapeHtml(row.status)}</span>
       <span>${escapeHtml(row.impression || '-')}</span>
     </button>
-  `
-    )
-    .join('');
+  `).join('');
 
   examList.querySelectorAll('[data-exam-id]').forEach((btn) => {
     btn.addEventListener('click', () => {
@@ -584,54 +591,52 @@ function buildReportPreviewHtml({ patient, examType, examDate, findings, impress
   const consultantName = sessionData.profile.full_name || 'Consultant';
   const reportDate = examDate || '-';
 
-  const rows = [];
+  let rows = [];
 
   if (examType === 'Level II Scan') {
-    rows.push(['Fetal Lie', findings.fetalLie]);
-    rows.push(['Placenta', findings.placenta]);
-    rows.push(['Liquor', findings.liquor]);
-    rows.push(['Cervix', findings.cervix]);
-    rows.push(['BPD', findings.bpd]);
-    rows.push(['HC', findings.hc]);
-    rows.push(['AC', findings.ac]);
-    rows.push(['FL', findings.fl]);
-    rows.push(['Brain', findings.brain]);
-    rows.push(['Face', findings.face]);
-    rows.push(['Spine', findings.spine]);
-    rows.push(['Heart', findings.heart]);
-    rows.push(['Abdomen', findings.abdomen]);
-    rows.push(['Limbs', findings.limbs]);
-    rows.push(['Soft Markers', findings.softMarkers]);
-    rows.push(['Major Anomaly', findings.majorAnomaly]);
-    rows.push(['Notes', findings.notes]);
-    if (findings.ga) rows.push(['GA', findings.ga]);
-    if (findings.fhr) rows.push(['FHR', findings.fhr]);
+    rows = [
+      ['Fetal Lie', findings.fetalLie],
+      ['Placenta', findings.placenta],
+      ['Liquor', findings.liquor],
+      ['Cervix', findings.cervix],
+      ['BPD', findings.bpd],
+      ['HC', findings.hc],
+      ['AC', findings.ac],
+      ['FL', findings.fl],
+      ['Brain', findings.brain],
+      ['Face', findings.face],
+      ['Spine', findings.spine],
+      ['Heart', findings.heart],
+      ['Abdomen', findings.abdomen],
+      ['Limbs', findings.limbs],
+      ['Soft Markers', findings.softMarkers],
+      ['Major Anomaly', findings.majorAnomaly],
+      ['Notes', findings.notes],
+      ['GA', findings.ga || '-'],
+      ['FHR', findings.fhr || '-'],
+    ];
   } else if (examType === 'NT Scan') {
-    rows.push(['CRL (mm)', findings.crl_mm]);
-    rows.push(['NT (mm)', findings.nt_mm]);
-    rows.push(['Nasal Bone', findings.nasal_bone]);
-    rows.push(['Ductus Venosus', findings.ductus_venosus]);
-    rows.push(['Tricuspid Flow', findings.tricuspid_flow]);
-    rows.push(['Soft Markers', findings.soft_markers]);
-    rows.push(['Notes', findings.nt_notes]);
-    if (findings.ga) rows.push(['GA', findings.ga]);
-    if (findings.fhr) rows.push(['FHR', findings.fhr]);
+    rows = [
+      ['CRL (mm)', findings.crl_mm],
+      ['NT (mm)', findings.nt_mm],
+      ['Nasal Bone', findings.nasal_bone],
+      ['Ductus Venosus', findings.ductus_venosus],
+      ['Tricuspid Flow', findings.tricuspid_flow],
+      ['Soft Markers', findings.soft_markers],
+      ['Notes', findings.nt_notes],
+      ['GA', findings.ga || '-'],
+      ['FHR', findings.fhr || '-'],
+    ];
   } else {
-    Object.entries(findings || {}).forEach(([key, value]) => {
-      rows.push([formatFieldLabel(key), value]);
-    });
+    rows = Object.entries(findings || {}).map(([key, value]) => [formatFieldLabel(key), value]);
   }
 
-  const findingsRows = rows
-    .map(
-      ([label, value]) => `
-      <tr>
-        <td>${escapeHtml(String(label))}</td>
-        <td>${escapeHtml(String(value ?? '-'))}</td>
-      </tr>
-    `
-    )
-    .join('');
+  const findingsRows = rows.map(([label, value]) => `
+    <tr>
+      <td>${escapeHtml(String(label))}</td>
+      <td>${escapeHtml(String(value ?? '-'))}</td>
+    </tr>
+  `).join('');
 
   return `
     <div class="report-sheet branded-report-sheet">
@@ -689,14 +694,14 @@ function escapeHtml(value) {
     .replaceAll('&', '&amp;')
     .replaceAll('<', '&lt;')
     .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#39;');
+    .replaceAll('\"', '&quot;')
+    .replaceAll(\"'\", '&#39;');
 }
 
 function formatFieldLabel(key) {
   return String(key)
     .replaceAll('_', ' ')
-    .replace(/\b\w/g, (ch) => ch.toUpperCase());
+    .replace(/\\b\\w/g, (ch) => ch.toUpperCase());
 }
 
 async function boot() {
