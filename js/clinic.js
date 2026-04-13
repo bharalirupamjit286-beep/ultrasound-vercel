@@ -366,31 +366,71 @@ async function loadExaminations() {
 }
 
 function buildReportPreviewHtml({ patient, examType, examDate, findings, impression }) {
+  const centerName = sessionData.center?.name || 'Clinic';
+  const centerCode = sessionData.center?.code || '-';
+  const consultantName = sessionData.profile.full_name || 'Consultant';
+  const reportDate = examDate || '-';
+
   const findingsRows = Object.entries(findings || {}).map(([key, value]) => `
     <tr>
-      <td>${escapeHtml(key)}</td>
-      <td>${escapeHtml(String(value))}</td>
+      <td>${escapeHtml(formatFieldLabel(key))}</td>
+      <td>${escapeHtml(String(value ?? '-'))}</td>
     </tr>
   `).join('');
- return `
-    <div class="report-sheet">
-      <h3>${escapeHtml(sessionData.center?.name || 'Clinic')}</h3>
-      <p><strong>Patient:</strong> ${escapeHtml(patient.patient_name)}</p>
-      <p><strong>Patient ID:</strong> ${escapeHtml(patient.patient_uid || '-')}</p>
-      <p><strong>Exam Type:</strong> ${escapeHtml(examType || '-')}</p>
-      <p><strong>Exam Date:</strong> ${escapeHtml(examDate || '-')}</p>
-      <table class="report-table-lite">
-        <thead><tr><th>Field</th><th>Value</th></tr></thead>
-        <tbody>${findingsRows || '<tr><td colspan="2">No findings entered</td></tr>'}</tbody>
+
+  return `
+    <div class="report-sheet branded-report-sheet">
+      <div class="report-brand-header">
+        <div>
+          <h2 class="report-center-name">${escapeHtml(centerName)}</h2>
+          <div class="report-center-sub">Fetal Imaging · NT Screening · Obstetric Ultrasound</div>
+        </div>
+        <div class="report-center-meta">
+          <div><strong>Center Code:</strong> ${escapeHtml(centerCode)}</div>
+          <div><strong>Report Type:</strong> ${escapeHtml(examType || '-')}</div>
+          <div><strong>Date:</strong> ${escapeHtml(reportDate)}</div>
+        </div>
+      </div>
+
+      <div class="report-patient-block">
+        <div><strong>Patient Name:</strong> ${escapeHtml(patient.patient_name || '-')}</div>
+        <div><strong>Patient ID:</strong> ${escapeHtml(patient.patient_uid || '-')}</div>
+        <div><strong>Age / Sex:</strong> ${escapeHtml(patient.age || '-')} / ${escapeHtml(patient.sex || '-')}</div>
+        <div><strong>Phone:</strong> ${escapeHtml(patient.phone || '-')}</div>
+        <div><strong>Referred By:</strong> ${escapeHtml(patient.referred_by || '-')}</div>
+      </div>
+
+      <div class="report-section-title">NT Scan Findings</div>
+      <table class="report-table-lite branded-table">
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${findingsRows || '<tr><td colspan="2">No findings entered</td></tr>'}
+        </tbody>
       </table>
-      <div class="report-impression">
-        <strong>Impression:</strong>
+
+      <div class="report-section-title">Impression</div>
+      <div class="report-impression branded-impression">
         <p>${escapeHtml(impression || '-')}</p>
+      </div>
+
+      <div class="report-sign-row">
+        <div class="report-note-box">
+          <strong>Note:</strong> This is a structured screening report and should be correlated clinically.
+        </div>
+        <div class="report-sign-box">
+          <div class="sign-line"></div>
+          <div class="sign-name">${escapeHtml(consultantName)}</div>
+          <div class="sign-role">Reporting Consultant</div>
+        </div>
       </div>
     </div>
   `;
 }
-
 function escapeHtml(value) {
   return String(value)
     .replaceAll('&', '&amp;')
@@ -399,7 +439,11 @@ function escapeHtml(value) {
     .replaceAll('"', '&quot;')
     .replaceAll("'", '&#39;');
 }
-
+function formatFieldLabel(key) {
+  return String(key)
+    .replaceAll('_', ' ')
+    .replace(/\b\w/g, ch => ch.toUpperCase());
+}
 async function boot() {
   sessionData = await requireRole(['center_admin', 'doctor', 'staff']);
   if (!sessionData) return;
