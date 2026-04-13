@@ -69,6 +69,43 @@
   <input id="fhr" placeholder="FHR" />
 
   <div id="ntModule" class="full-span nt-module-box" style="display:none;">
+    <div id="level2Module" style="display:none;">
+  <h3>Level II Scan Fields</h3>
+
+  <input id="l2FetalLie" placeholder="Fetal lie" />
+  <input id="l2Placenta" placeholder="Placenta" />
+  <input id="l2Liquor" placeholder="Liquor" />
+  <input id="l2Cervix" placeholder="Cervix" />
+
+  <input id="l2Bpd" placeholder="BPD" />
+  <input id="l2Hc" placeholder="HC" />
+  <input id="l2Ac" placeholder="AC" />
+  <input id="l2Fl" placeholder="FL" />
+
+  <select id="l2Brain">
+    <option value="">Brain</option>
+    <option value="normal">Normal</option>
+    <option value="abnormal">Abnormal</option>
+  </select>
+
+  <select id="l2Heart">
+    <option value="">Heart</option>
+    <option value="normal">Normal</option>
+    <option value="abnormal">Abnormal</option>
+  </select>
+
+  <select id="l2MajorAnomaly">
+    <option value="none">Major anomaly</option>
+    <option value="present">Present</option>
+  </select>
+
+  <textarea id="l2Notes" placeholder="Notes"></textarea>
+
+  <div>
+    <strong>Summary:</strong> <span id="l2Summary">Not calculated</span><br>
+    <strong>Recommendation:</strong> <span id="l2Recommendation">Not calculated</span>
+  </div>
+</div>
     <h3>NT Scan Fields</h3>
 
     <div class="form-grid compact-grid">
@@ -190,7 +227,7 @@
 <p id="examMsg"></p>
 
           <!-- FIXED JSON FIELD -->
-          <textarea id="findingsJson" class="full-span"
+        
             placeholder='Findings JSON, e.g. {"nt":"1.8 mm","nasal_bone":"present"}'>
           </textarea>
 
