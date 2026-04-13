@@ -1,10 +1,16 @@
 import { supabase } from './supabase.js';
 import { requireRole, signOutUser } from './auth.js';
-
+const printReportBtn = document.getElementById('printReportBtn');
 const clinicTitle = document.getElementById('clinicTitle');
 const clinicWelcome = document.getElementById('clinicWelcome');
 const logoutBtn = document.getElementById('logoutBtn');
-
+printReportBtn.addEventListener('click', () => {
+  if (!reportPreview.innerHTML || reportPreview.textContent.includes('No preview yet')) {
+    alert('No report available to print.');
+    return;
+  }
+  window.print();
+});
 const patientForm = document.getElementById('patientForm');
 const patientMsg = document.getElementById('patientMsg');
 const patientSearch = document.getElementById('patientSearch');
