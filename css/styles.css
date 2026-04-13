@@ -361,3 +361,9 @@ button {
     display: block;
   }
 }
+.level2-module-box {
+  border: 1px solid #dbe4ff;
+  background: #fffdf8;
+  border-radius: 14px;
+  padding: 14px;
+}
