@@ -87,3 +87,96 @@ button {
     grid-template-columns: 1fr;
   }
 }
+.workspace-grid {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 20px;
+}
+
+.sidebar-card,
+.main-card {
+  min-height: 70vh;
+}
+
+.compact-grid {
+  grid-template-columns: 1fr 1fr;
+}
+
+.toolbar-row {
+  display: flex;
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.scroll-panel {
+  max-height: 460px;
+  overflow: auto;
+  display: grid;
+  gap: 10px;
+}
+
+.patient-row,
+.exam-row {
+  text-align: left;
+  background: #fff;
+  color: #111827;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px;
+  display: grid;
+  gap: 4px;
+}
+
+.patient-row-active {
+  border-color: #1d4ed8;
+  box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.1);
+}
+
+.muted-box,
+.report-preview-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 14px;
+  background: #fafafa;
+}
+
+.full-span {
+  grid-column: 1 / -1;
+  min-height: 100px;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+}
+
+.report-sheet {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 18px;
+}
+
+.report-table-lite {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+
+.report-table-lite th,
+.report-table-lite td {
+  border: 1px solid #e5e7eb;
+  padding: 8px;
+  text-align: left;
+}
+
+.report-impression {
+  margin-top: 16px;
+}
+
+@media (max-width: 980px) {
+  .workspace-grid,
+  .compact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
