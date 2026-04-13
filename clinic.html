@@ -63,39 +63,32 @@
 
           <div id="ntModule" class="full-span nt-module-box" style="display:none;">
             <h3>NT Scan Fields</h3>
-
             <div class="form-grid compact-grid">
               <input id="ntCrl" placeholder="CRL (mm)" />
               <input id="ntValue" placeholder="NT (mm)" />
-
               <select id="nasalBone">
                 <option value="">Nasal bone</option>
                 <option value="present">Present</option>
                 <option value="absent">Absent</option>
                 <option value="hypoplastic">Hypoplastic</option>
               </select>
-
               <select id="dvFlow">
                 <option value="">Ductus venosus</option>
                 <option value="normal">Normal</option>
                 <option value="abnormal">Abnormal</option>
               </select>
-
               <select id="trFlow">
                 <option value="">Tricuspid flow</option>
                 <option value="normal">Normal</option>
                 <option value="regurgitation">Regurgitation</option>
               </select>
-
               <select id="softMarkers">
                 <option value="none">Soft markers</option>
                 <option value="none">None</option>
                 <option value="present">Present</option>
               </select>
             </div>
-
             <textarea id="ntNotes" class="full-span" placeholder="Additional NT notes"></textarea>
-
             <div class="nt-summary-strip">
               <div class="muted-box"><strong>Risk Summary</strong><div id="ntRiskSummary">Not calculated</div></div>
               <div class="muted-box"><strong>Recommendation</strong><div id="ntRecommendation">Not calculated</div></div>
@@ -104,78 +97,64 @@
 
           <div id="level2Module" class="full-span nt-module-box" style="display:none;">
             <h3>Level II Scan Fields</h3>
-
             <div class="form-grid compact-grid">
               <input id="l2FetalLie" placeholder="Fetal lie" />
               <input id="l2Placenta" placeholder="Placenta e.g. posterior upper" />
-
               <input id="l2Liquor" placeholder="Liquor e.g. adequate" />
               <input id="l2Cervix" placeholder="Cervix e.g. 3.4 cm, closed" />
-
               <input id="l2Bpd" placeholder="BPD" />
               <input id="l2Hc" placeholder="HC" />
-
               <input id="l2Ac" placeholder="AC" />
               <input id="l2Fl" placeholder="FL" />
-
               <select id="l2Brain">
                 <option value="">Brain</option>
                 <option value="normal">Normal</option>
                 <option value="abnormal">Abnormal</option>
               </select>
-
               <select id="l2Face">
                 <option value="">Face</option>
                 <option value="normal">Normal</option>
                 <option value="abnormal">Abnormal</option>
               </select>
-
               <select id="l2Spine">
                 <option value="">Spine</option>
                 <option value="normal">Normal</option>
                 <option value="abnormal">Abnormal</option>
               </select>
-
               <select id="l2Heart">
                 <option value="">Heart</option>
                 <option value="normal">Normal</option>
                 <option value="abnormal">Abnormal</option>
               </select>
-
               <select id="l2Abdomen">
                 <option value="">Abdomen</option>
                 <option value="normal">Normal</option>
                 <option value="abnormal">Abnormal</option>
               </select>
-
               <select id="l2Limbs">
                 <option value="">Limbs</option>
                 <option value="normal">Normal</option>
                 <option value="abnormal">Abnormal</option>
               </select>
-
               <select id="l2SoftMarkers">
                 <option value="none">Soft markers</option>
                 <option value="none">None</option>
                 <option value="present">Present</option>
               </select>
-
               <select id="l2MajorAnomaly">
                 <option value="none">Major anomaly</option>
                 <option value="none">None detected</option>
                 <option value="present">Present / suspected</option>
               </select>
             </div>
-
             <textarea id="l2Notes" class="full-span" placeholder="Additional Level II notes"></textarea>
-
             <div class="nt-summary-strip">
               <div class="muted-box"><strong>Scan Summary</strong><div id="l2Summary">Not calculated</div></div>
               <div class="muted-box"><strong>Recommendation</strong><div id="l2Recommendation">Not calculated</div></div>
             </div>
           </div>
 
-          <textarea id="findingsJson" class="full-span" placeholder='Findings JSON, only for non-structured modules'></textarea>
+          <textarea id="findingsJson" class="full-span" placeholder="Findings JSON, only for non-structured modules"></textarea>
           <textarea id="impression" class="full-span" placeholder="Impression"></textarea>
           <textarea id="reportHtml" class="full-span" placeholder="Optional report HTML"></textarea>
 
