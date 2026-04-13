@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Clinic Reporting Login</title>
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+  <div class="page-shell auth-shell">
+    <div class="auth-card">
+      <h1>Clinic Reporting Login</h1>
+      <p>Sign in with your Supabase account.</p>
+
+      <form id="loginForm" class="form-stack">
+        <label>
+          <span>Email</span>
+          <input id="email" type="email" required />
+        </label>
+
+        <label>
+          <span>Password</span>
+          <input id="password" type="password" required />
+        </label>
+
+        <button type="submit">Sign In</button>
+      </form>
+
+      <p id="loginMsg"></p>
+    </div>
+  </div>
+
+  <script type="module">
+    import { signInWithPassword, getCurrentAppUser } from './js/auth.js';
+
+    const form = document.getElementById('loginForm');
+    const msg = document.getElementById('loginMsg');
+
+    async function redirectByRole() {
+      const result = await getCurrentAppUser();
+
+      if (!result.user) return;
+
+      if (!result.profile) {
+        msg.textContent = 'Profile mapping missing. Contact administrator.';
+        return;
+      }
+
+      if (!result.profile.is_active) {
+        msg.textContent = 'Your account is inactive.';
+        return;
+      }
+
+      if (result.profile.role === 'super_admin') {
+        window.location.href = './admin.html';
+        return;
+      }
+
+      window.location.href = './clinic.html';
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      msg.textContent = 'Signing in...';
+
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      try {
+        await signInWithPassword(email, password);
+        await redirectByRole();
+      } catch (error) {
+        msg.textContent = error.message || 'Login failed';
+      }
+    });
+
+    redirectByRole();
+  </script>
+</body>
+</html>
