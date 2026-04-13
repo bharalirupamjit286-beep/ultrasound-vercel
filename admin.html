@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head><title>Admin</title></head>
+<body>
+<h2>Super Admin Dashboard</h2>
+<button id="logout">Logout</button>
+<div id="list"></div>
+
+<script type="module">
+import { supabase } from './js/supabase.js';
+import { requireRole, signOutUser } from './js/auth.js';
+
+document.getElementById('logout').onclick = async ()=> {
+  await signOutUser();
+  location.href = './login.html';
+};
+
+async function load() {
+  const session = await requireRole(['super_admin']);
+  if (!session) return;
+
+  const { data } = await supabase.from('center_onboarding_requests').select('*');
+  document.getElementById('list').innerHTML = JSON.stringify(data, null, 2);
+}
+
+load();
+</script>
+</body>
+</html>

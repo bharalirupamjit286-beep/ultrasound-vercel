@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head><title>Login</title></head>
+<body>
+<h2>Login</h2>
+<form id="loginForm">
+<input id="email" placeholder="Email" required />
+<input id="password" type="password" placeholder="Password" required />
+<button>Login</button>
+</form>
+<p id="msg"></p>
+
+<script type="module">
+import { signInWithPassword, getCurrentAppUser } from './js/auth.js';
+
+const form = document.getElementById('loginForm');
+const msg = document.getElementById('msg');
+
+async function redirect() {
+  const res = await getCurrentAppUser();
+  if (!res.user) return;
+  if (res.profile.role === 'super_admin') window.location = './admin.html';
+  else window.location = './clinic.html';
+}
+
+form.addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  msg.textContent = 'Logging in...';
+  try {
+    await signInWithPassword(
+      document.getElementById('email').value,
+      document.getElementById('password').value
+    );
+    redirect();
+  } catch(err) {
+    msg.textContent = err.message;
+  }
+});
+
+redirect();
+</script>
+</body>
+</html>
