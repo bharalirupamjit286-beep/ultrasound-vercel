@@ -56,19 +56,68 @@
 
         <h2>Create Examination</h2>
 
-        <form id="examForm" class="form-grid">
+<form id="examForm" class="form-grid">
+  <select id="examType" required>
+    <option value="">Select exam type</option>
+    <option value="NT Scan">NT Scan</option>
+    <option value="Level II Scan">Level II Scan</option>
+    <option value="Routine Biometry">Routine Biometry</option>
+    <option value="Obstetric + Doppler">Obstetric + Doppler</option>
+  </select>
 
-          <select id="examType" required>
-            <option value="">Select exam type</option>
-            <option value="NT Scan">NT Scan</option>
-            <option value="Level II Scan">Level II Scan</option>
-            <option value="Routine Biometry">Routine Biometry</option>
-            <option value="Obstetric + Doppler">Obstetric + Doppler</option>
-          </select>
+  <input id="examDate" type="date" />
+  <input id="gaText" placeholder="GA e.g. 12w 4d" />
+  <input id="fhr" placeholder="FHR" />
 
-          <input id="examDate" type="date" />
-          <input id="gaText" placeholder="GA e.g. 12w 4d" />
-          <input id="fhr" placeholder="FHR" />
+  <div id="ntModule" class="full-span nt-module-box" style="display:none;">
+    <h3>NT Scan Fields</h3>
+
+    <div class="form-grid compact-grid">
+      <input id="ntCrl" placeholder="CRL (mm)" />
+      <input id="ntValue" placeholder="NT (mm)" />
+
+       <select id="nasalBone">
+        <option value="">Nasal bone</option>
+        <option value="present">Present</option>
+        <option value="absent">Absent</option>
+        <option value="hypoplastic">Hypoplastic</option>
+      </select>
+
+      <select id="dvFlow">
+        <option value="">Ductus venosus</option>
+        <option value="normal">Normal</option>
+        <option value="abnormal">Abnormal</option>
+      </select>
+
+      <select id="trFlow">
+        <option value="">Tricuspid flow</option>
+        <option value="normal">Normal</option>
+        <option value="regurgitation">Regurgitation</option>
+      </select>
+
+      <select id="softMarkers">
+        <option value="none">Soft markers</option>
+        <option value="none">None</option>
+        <option value="present">Present</option>
+      </select>
+    </div>
+
+    <textarea id="ntNotes" class="full-span" placeholder="Additional NT notes"></textarea>
+
+    <div class="nt-summary-strip">
+      <div class="muted-box"><strong>Risk Summary</strong><div id="ntRiskSummary">Not calculated</div></div>
+      <div class="muted-box"><strong>Recommendation</strong><div id="ntRecommendation">Not calculated</div></div>
+    </div>
+  </div>
+
+  <textarea id="findingsJson" class="full-span" placeholder='Findings JSON, e.g. {"nt":"1.8 mm","nasal_bone":"present"}'></textarea>
+  <textarea id="impression" class="full-span" placeholder="Impression"></textarea>
+  <textarea id="reportHtml" class="full-span" placeholder="Optional report HTML"></textarea>
+
+  <button type="submit">Save Examination</button>
+</form>
+
+<p id="examMsg"></p>
 
           <!-- FIXED JSON FIELD -->
           <textarea id="findingsJson" class="full-span"
