@@ -19,7 +19,6 @@
     <div class="workspace-grid">
       <section class="card sidebar-card">
         <h2>Patient Registry</h2>
-
         <form id="patientForm" class="form-grid compact-grid">
           <input id="patientUid" placeholder="Patient ID" />
           <input id="patientName" placeholder="Patient name" required />
@@ -29,14 +28,11 @@
           <input id="referredBy" placeholder="Referred by" />
           <button type="submit">Add Patient</button>
         </form>
-
         <p id="patientMsg"></p>
-
         <div class="toolbar-row">
           <input id="patientSearch" placeholder="Search patient" />
           <button id="refreshPatientsBtn" type="button">Refresh</button>
         </div>
-
         <div id="patientList" class="scroll-panel">Loading...</div>
       </section>
 
@@ -47,7 +43,6 @@
         <hr />
 
         <h2>Create Examination</h2>
-
         <form id="examForm" class="form-grid">
           <select id="examType" required>
             <option value="">Select exam type</option>
@@ -89,19 +84,15 @@
               </select>
             </div>
             <textarea id="ntNotes" class="full-span" placeholder="Additional NT notes"></textarea>
-            <div class="nt-summary-strip">
-              <div class="muted-box"><strong>Risk Summary</strong><div id="ntRiskSummary">Not calculated</div></div>
-              <div class="muted-box"><strong>Recommendation</strong><div id="ntRecommendation">Not calculated</div></div>
-            </div>
           </div>
 
           <div id="level2Module" class="full-span nt-module-box" style="display:none;">
             <h3>Level II Scan Fields</h3>
             <div class="form-grid compact-grid">
               <input id="l2FetalLie" placeholder="Fetal lie" />
-              <input id="l2Placenta" placeholder="Placenta e.g. posterior upper" />
-              <input id="l2Liquor" placeholder="Liquor e.g. adequate" />
-              <input id="l2Cervix" placeholder="Cervix e.g. 3.4 cm, closed" />
+              <input id="l2Placenta" placeholder="Placenta" />
+              <input id="l2Liquor" placeholder="Liquor" />
+              <input id="l2Cervix" placeholder="Cervix" />
               <input id="l2Bpd" placeholder="BPD" />
               <input id="l2Hc" placeholder="HC" />
               <input id="l2Ac" placeholder="AC" />
@@ -148,13 +139,9 @@
               </select>
             </div>
             <textarea id="l2Notes" class="full-span" placeholder="Additional Level II notes"></textarea>
-            <div class="nt-summary-strip">
-              <div class="muted-box"><strong>Scan Summary</strong><div id="l2Summary">Not calculated</div></div>
-              <div class="muted-box"><strong>Recommendation</strong><div id="l2Recommendation">Not calculated</div></div>
-            </div>
           </div>
 
-          <textarea id="findingsJson" class="full-span" placeholder="Findings JSON, only for non-structured modules"></textarea>
+          <textarea id="findingsJson" class="full-span" placeholder="Findings JSON for non-structured modules"></textarea>
           <textarea id="impression" class="full-span" placeholder="Impression"></textarea>
           <textarea id="reportHtml" class="full-span" placeholder="Optional report HTML"></textarea>
 
@@ -169,7 +156,6 @@
           <h2>Report Preview</h2>
           <button id="printReportBtn" type="button">Print Report</button>
         </div>
-
         <div id="reportPreview" class="report-preview-card print-shell">No preview yet.</div>
 
         <hr />
