@@ -103,20 +103,102 @@ examForm?.addEventListener('submit', async (e) => {
   }
 
   const findings = buildFindings(examType);
-  let impression = buildImpression(examType, findings);
-
-  if (!impression && impressionEl?.value.trim()) {
-    impression = impressionEl.value.trim();
+ function buildImpression(examType, findings) {
+  if (examType === 'NT Scan') {
+    const out = [];
+    if (findings.crl_mm !== '-') out.push(`CRL measures ${findings.crl_mm} mm.`);
+    if (findings.nt_mm !== '-') out.push(`NT measures ${findings.nt_mm} mm.`);
+    if (findings.nasal_bone !== '-') out.push(`Nasal bone is ${findings.nasal_bone}.`);
+    if (findings.ductus_venosus !== '-') out.push(`Ductus venosus flow is ${findings.ductus_venosus}.`);
+    if (findings.tricuspid_flow !== '-') out.push(`Tricuspid flow is ${findings.tricuspid_flow}.`);
+    if (findings.soft_markers !== 'none' && findings.soft_markers !== '-') out.push('Soft markers are present.');
+    if (findings.nt_notes !== '-') out.push(findings.nt_notes);
+    return out.join(' ') || 'NT scan findings recorded.';
   }
-  if (impressionEl) impressionEl.value = impression;
 
-  const previewHtml = reportHtmlEl?.value.trim() || buildPreview({
-    patient: selectedPatient,
-    examType,
-    examDate: examDateEl?.value || null,
-    findings,
-    impression,
-  });
+  if (examType === 'Level II Scan') {
+    const normalOrgans = [];
+    const abnormalOrgans = [];
+
+    const organMap = [
+      ['brain', 'brain'],
+      ['face', 'face'],
+      ['spine', 'spine'],
+      ['heart', 'heart'],
+      ['abdomen', 'abdomen'],
+      ['limbs', 'limbs'],
+    ];
+
+    organMap.forEach(([key, label]) => {
+      if (findings[key] === 'normal') normalOrgans.push(label);
+      if (findings[key] === 'abnormal') abnormalOrgans.push(label);
+    });
+
+    const intro = [];
+    const structural = [];
+    const conclusion = [];
+
+    if (findings.fetal_lie !== '-') intro.push(`Single live intrauterine fetus in ${findings.fetal_lie} presentation.`);
+    if (findings.ga && findings.ga !== '-') intro.push(`Gestational age by entered data is ${findings.ga}.`);
+
+    const biometry = [
+      findings.bpd !== '-' ? `BPD ${findings.bpd}` : null,
+      findings.hc !== '-' ? `HC ${findings.hc}` : null,
+      findings.ac !== '-' ? `AC ${findings.ac}` : null,
+      findings.fl !== '-' ? `FL ${findings.fl}` : null,
+    ].filter(Boolean);
+
+    if (biometry.length) {
+      intro.push(`Recorded biometric parameters are ${biometry.join(', ')}.`);
+    }
+
+    if (findings.placenta !== '-') {
+      structural.push(`Placenta is ${findings.placenta}.`);
+    }
+
+    if (findings.liquor !== '-') {
+      structural.push(`Liquor appears ${findings.liquor}.`);
+    }
+
+    if (findings.cervix !== '-') {
+      structural.push(`Cervix is ${findings.cervix}.`);
+    }
+
+    if (findings.fhr !== '-' && findings.fhr) {
+      structural.push(`Fetal heart rate is ${findings.fhr} bpm.`);
+    }
+
+    if (abnormalOrgans.length === 0 && normalOrgans.length > 0) {
+      structural.push(`Detailed anomaly survey of the ${normalOrgans.join(', ')} appears unremarkable on the entered parameters.`);
+    }
+
+    if (abnormalOrgans.length > 0) {
+      structural.push(`Abnormality / suspicious finding is noted in the ${abnormalOrgans.join(', ')} on the entered parameters.`);
+    }
+
+    if (findings.soft_markers === 'present') {
+      conclusion.push('Soft marker(s) are present.');
+    }
+
+    if (findings.major_anomaly === 'present') {
+      conclusion.push('Major structural anomaly is suspected / present.');
+    }
+
+    if (abnormalOrgans.length === 0 && findings.major_anomaly !== 'present') {
+      conclusion.push('No major structural abnormality is detected on the entered Level II scan parameters.');
+    } else {
+      conclusion.push('Further fetal medicine correlation and targeted evaluation are advised.');
+    }
+
+    if (findings.notes !== '-') {
+      conclusion.push(findings.notes);
+    }
+
+    return [...intro, ...structural, ...conclusion].join(' ');
+  }
+
+  return impressionEl?.value.trim() || '';
+}
 
   const payload = {
     center_id: sessionData.profile.center_id,
